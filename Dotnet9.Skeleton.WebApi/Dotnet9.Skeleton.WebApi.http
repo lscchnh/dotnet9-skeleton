@@ -1,0 +1,6 @@
+@Dotnet9.Skeleton.WebApi_HostAddress = http://localhost:5231
+
+GET {{Dotnet9.Skeleton.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
