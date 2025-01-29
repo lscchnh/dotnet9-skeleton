@@ -6,6 +6,7 @@ public interface ICustomerRepository
 {
     List<Customer> GetAll();
     Customer? GetById(int id);
+    Customer? Create(Customer customer);
 }
 
 public class CustomerRepository : ICustomerRepository
@@ -28,5 +29,12 @@ public class CustomerRepository : ICustomerRepository
         List<Customer> customers = GetAll();
 
         return customers.FirstOrDefault(c => c.Id == id);
+    }
+    public Customer? Create(Customer customer)
+    {
+        List<Customer> customers = GetAll();
+        customers.Add(customer);
+
+        return customer;
     }
 }

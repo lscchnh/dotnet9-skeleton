@@ -8,6 +8,7 @@ public interface ICustomerService
 {
     List<Customer> GetAll();
     Result<Customer> GetById(int id);
+    Result<Customer> Create(Customer customer);
 }
 
 public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
@@ -21,6 +22,17 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
     {
         Customer? customer = customerRepository.GetById(id);
 
-        return customer is not null ? Result.Ok(customer) : Result.Fail($"Customer {id} not found");
+        return customer is not null
+            ? Result.Ok(customer)
+            : Result.Fail($"Customer {id} not found");
+    }
+
+    public Result<Customer> Create(Customer customer)
+    {
+        Customer? createdCustomer = customerRepository.Create(customer);
+
+        return createdCustomer is not null
+            ? Result.Ok(customer)
+            : Result.Fail($"Error when creating customer : {customer}");
     }
 }

@@ -1,7 +1,11 @@
 using Dotnet9.Skeleton.WebApi.Endpoints;
+using Dotnet9.Skeleton.WebApi.Exceptions;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -24,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.MapWeatherForecastEndpoints();
 app.MapCustomerEndpoints();
