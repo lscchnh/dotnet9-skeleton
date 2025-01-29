@@ -6,10 +6,13 @@ namespace Dotnet9.Skeleton.WebApi.Endpoints;
 
 public static class CustomerEndpoints
 {
+    private const string RouteName = "api/customers";
+
     public static void MapCustomerEndpoints(this WebApplication app)
     {
-        app.MapGet("/customers", GetAllCustomers);
-        app.MapGet("/customers/{id}", GetCustomerById);
+        var group = app.MapGroup(RouteName);
+        group.MapGet("", GetAllCustomers).WithName(nameof(GetAllCustomers));
+        group.MapGet("{id}", GetCustomerById).WithName(nameof(GetCustomerById));
     }
 
     public static void AddCustomerServices(this IServiceCollection services)

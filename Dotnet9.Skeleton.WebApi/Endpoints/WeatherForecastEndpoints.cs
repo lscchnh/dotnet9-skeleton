@@ -7,7 +7,7 @@ public static class WeatherForecastEndpoints
 {
     public static void MapWeatherForecastEndpoints(this WebApplication app)
     {
-        app.MapGet("/weatherforecasts", GetWeatherForecasts);
+        app.MapGet("api/weatherforecasts", GetWeatherForecasts);
     }
 
     public static void AddWeatherForecastServices(this IServiceCollection services)
