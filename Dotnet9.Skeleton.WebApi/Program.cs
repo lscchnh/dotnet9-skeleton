@@ -1,3 +1,4 @@
+using Dotnet9.Skeleton.WebApi.Endpoints;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddWeatherForecastServices();
+builder.Services.AddCustomerServices();
 
 var app = builder.Build();
 
@@ -14,34 +18,14 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
-        options.Servers = Array.Empty<ScalarServer>(); // workaround to tell scalar to use host port instead of container port (when launching on docker mode)
+        // workaround to tell scalar to use host port instead of container port (when launching on docker mode)
+        options.Servers = Array.Empty<ScalarServer>();
     });
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapWeatherForecastEndpoints();
+app.MapCustomerEndpoints();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
