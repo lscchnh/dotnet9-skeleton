@@ -1,5 +1,6 @@
 using Dotnet9.Skeleton.WebApi.Endpoints;
 using Dotnet9.Skeleton.WebApi.Exceptions;
+using Dotnet9.Skeleton.WebApi.Options;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,15 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// register services
 builder.Services.AddWeatherForecastServices();
 builder.Services.AddCustomerServices();
+builder.Services.AddLogging();
+
+builder.Services.Configure<CustomerOptions>(
+    builder.Configuration.GetSection(CustomerOptions.Customer));
+
+builder.AddServiceDefaults();
 
 var app = builder.Build();
 
@@ -28,10 +36,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseExceptionHandler();
 
 app.MapWeatherForecastEndpoints();
 app.MapCustomerEndpoints();
+app.MapDefaultEndpoints();
 
 app.Run();

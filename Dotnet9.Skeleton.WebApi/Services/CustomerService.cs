@@ -1,6 +1,8 @@
 ﻿using Dotnet9.Skeleton.WebApi.Models;
+using Dotnet9.Skeleton.WebApi.Options;
 using Dotnet9.Skeleton.WebApi.Repositories;
 using FluentResults;
+using Microsoft.Extensions.Options;
 
 namespace Dotnet9.Skeleton.WebApi.Services;
 
@@ -11,7 +13,7 @@ public interface ICustomerService
     Result<Customer> Create(Customer customer);
 }
 
-public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
+public class CustomerService(IOptionsMonitor<CustomerOptions> customerOptions, ICustomerRepository customerRepository) : ICustomerService
 {
     public List<Customer> GetAll()
     {
@@ -24,7 +26,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
 
         return customer is not null
             ? Result.Ok(customer)
-            : Result.Fail($"Customer {id} not found");
+            : Result.Fail($"Customer {id} from {customerOptions.CurrentValue.Company} not found.");
     }
 
     public Result<Customer> Create(Customer customer)
@@ -33,6 +35,6 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
 
         return createdCustomer is not null
             ? Result.Ok(customer)
-            : Result.Fail($"Error when creating customer : {customer}");
+            : Result.Fail($"Error when creating customer from {customerOptions.CurrentValue.Company}: {customer}.");
     }
 }
