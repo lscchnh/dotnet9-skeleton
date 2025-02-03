@@ -17,8 +17,10 @@ builder.Services.AddWeatherForecastServices();
 builder.Services.AddCustomerServices();
 builder.Services.AddLogging();
 
-builder.Services.Configure<CustomerOptions>(
-    builder.Configuration.GetSection(CustomerOptions.Customer));
+builder.Services.AddOptions<CustomerOptions>()
+                       .BindConfiguration(CustomerOptions.Customer)
+                       .ValidateDataAnnotations()
+                       .ValidateOnStart();
 
 builder.AddServiceDefaults();
 
