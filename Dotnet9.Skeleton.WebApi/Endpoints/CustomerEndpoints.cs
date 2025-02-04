@@ -3,7 +3,6 @@ using Dotnet9.Skeleton.WebApi.Repositories;
 using Dotnet9.Skeleton.WebApi.Services;
 using Dotnet9.Skeleton.WebApi.Validation;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace Dotnet9.Skeleton.WebApi.Endpoints;
 
@@ -11,12 +10,11 @@ public static class CustomerEndpoints
 {
     private const string RouteName = "api/customers";
 
-    public static void MapCustomerEndpoints(this WebApplication app)
+    public static void MapCustomerEndpoints(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup(RouteName);
         group.MapGet("", GetAllCustomers)
             .WithName(nameof(GetAllCustomers));
-        // TODO:  .AddEndpointFilter
 
         group.MapGet("{id}", GetCustomerById)
             .WithName(nameof(GetCustomerById));
@@ -25,7 +23,8 @@ public static class CustomerEndpoints
             .WithName(nameof(CreateCustomerWithException));
 
         group.MapPost("", CreateCustomer)
-            .WithName(nameof(CreateCustomer));
+            .WithName(nameof(CreateCustomer))
+            .WithRequestValidation<Customer>();
     }
 
     public static void AddCustomerServices(this IServiceCollection services)
@@ -55,15 +54,8 @@ public static class CustomerEndpoints
         throw new ApplicationException("I'm an exception");
     }
 
-    internal static async Task<IResult> CreateCustomer(IValidator<Customer> validator, ICustomerService customerService, Customer customer)
+    internal static IResult CreateCustomer(ICustomerService customerService, Customer customer)
     {
-        ValidationResult validationResult = await validator.ValidateAsync(customer);
-
-        if (!validationResult.IsValid)
-        {
-            return Results.ValidationProblem(validationResult.ToDictionary());
-        }
-
         var response = customerService.Create(customer);
 
         return response.IsSuccess
