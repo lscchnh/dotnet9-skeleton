@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceDefaults", "..\Servi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHost", "..\AppHost\AppHost.csproj", "{CA405E61-133D-4E03-841E-0AC49EB46703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet9.Skeleton.UnitTests", "..\Dotnet9.Skeleton.UnitTests\Dotnet9.Skeleton.UnitTests.csproj", "{5E82AB90-8DE7-4660-AA57-87ED3C4C9EF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CA405E61-133D-4E03-841E-0AC49EB46703}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA405E61-133D-4E03-841E-0AC49EB46703}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA405E61-133D-4E03-841E-0AC49EB46703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E82AB90-8DE7-4660-AA57-87ED3C4C9EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E82AB90-8DE7-4660-AA57-87ED3C4C9EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E82AB90-8DE7-4660-AA57-87ED3C4C9EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E82AB90-8DE7-4660-AA57-87ED3C4C9EF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
